@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetHuffman", "NetHuffman\NetHuffman.csproj", "{46DD8325-95D0-4B81-AAE1-D4DC4A4D7E6C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{B032088C-B507-4403-B4D6-F5D01F405A1D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{46DD8325-95D0-4B81-AAE1-D4DC4A4D7E6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46DD8325-95D0-4B81-AAE1-D4DC4A4D7E6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46DD8325-95D0-4B81-AAE1-D4DC4A4D7E6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46DD8325-95D0-4B81-AAE1-D4DC4A4D7E6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B032088C-B507-4403-B4D6-F5D01F405A1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B032088C-B507-4403-B4D6-F5D01F405A1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B032088C-B507-4403-B4D6-F5D01F405A1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B032088C-B507-4403-B4D6-F5D01F405A1D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

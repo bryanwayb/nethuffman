@@ -12,7 +12,7 @@ namespace NetHuffman
 
         private Tree _Tree = null;
 
-        public byte[] Encode(byte[] buffer)
+        public uint Encode(byte[] input, out byte[] output)
         {
             List<byte> ret = new List<byte>();
 
@@ -27,7 +27,7 @@ namespace NetHuffman
                 bool shiftDirection;
                 Tree.ForwardLookupEntry entry;
 
-                foreach (byte b in buffer)
+                foreach (byte b in input)
                 {
                     entry = _Tree.ForwardLookup[b];
                     currentBits = entry.CurrentBits;
@@ -76,18 +76,33 @@ namespace NetHuffman
                 {
                     ret[bufferIndex] = (byte)(ret[bufferIndex] | (0xFF >> (8 - carryOverBits)));
                 }
-            }
 
-            return ret.ToArray();
+                output = ret.ToArray();
+                return (uint)((bufferIndex << 3) + (8 - carryOverBits));
+            }
         }
 
-        public byte[] Decode(byte[] buffer)
+        public byte[] Encode(byte[] buffer)
+        {
+            byte[] ret;
+            Encode(buffer, out ret);
+            return ret;
+        }
+
+        public uint Decode(byte[] input, out byte[] output, uint bitlength = 0)
         {
             List<byte> ret = new List<byte>();
 
             unchecked
             {
-                uint RemainingBufferLength = (uint)buffer.Length << 3;
+                uint RemainingBufferLength = (uint)input.Length << 3,
+                    initialBufferLength = RemainingBufferLength;
+
+                if(bitlength > 0 && bitlength < RemainingBufferLength)
+                {
+                    RemainingBufferLength = bitlength;
+                }
+
                 int bufferIndex = 0;
                 byte carryOverByte = 0;
                 int carryOverBitlen = 0;
@@ -138,7 +153,7 @@ namespace NetHuffman
                                 }
                                 else
                                 {
-                                    byte nextByte = buffer[tmpBufferIndex++];
+                                    byte nextByte = input[tmpBufferIndex++];
                                     int offset = countToRead - tmpCarryOverBitlen;
                                     returnByte = (byte)((tmpCarryOverByte >> (8 - countToRead)) | (nextByte >> (Math.Abs(offset - 8))));
                                     tmpCarryOverByte = (byte)(nextByte << offset);
@@ -197,7 +212,7 @@ namespace NetHuffman
                             else
                             {
                                 int offset = countToRead - carryOverBitlen;
-                                carryOverByte = (byte)(buffer[bufferIndex++] << offset);
+                                carryOverByte = (byte)(input[bufferIndex++] << offset);
                                 carryOverBitlen = 8 - offset;
                             }
 
@@ -209,9 +224,17 @@ namespace NetHuffman
                         processSearch = keepSearching = false;
                     }
                 }
-            }
 
-            return ret.ToArray();
+                output = ret.ToArray();
+                return initialBufferLength - RemainingBufferLength;
+            }
+        }
+
+        public byte[] Decode(byte[] buffer)
+        {
+            byte[] ret;
+            Decode(buffer, out ret);
+            return ret;
         }
     }
 }

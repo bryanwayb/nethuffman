@@ -149,7 +149,7 @@ namespace NetHuffman
                         if(usedValues.Count == possibleUniques)
                         {
                             currentbitlen++;
-                            shiftIndex = 0;
+                            shiftIndex = -1;
                             shiftedBits = 0;
                             shouldInvert = false;
                         }

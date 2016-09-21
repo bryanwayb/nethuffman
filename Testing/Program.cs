@@ -12,11 +12,11 @@ namespace Testing
         {
             NetHuffman.Tree tree = new NetHuffman.Tree();
 
-            tree.BuildDictionary("testing");
+            tree.BuildDictionary("this is just a test");
 
             NetHuffman.Coder coder = new NetHuffman.Coder(tree);
 
-            byte[] decoded = Encoding.UTF8.GetBytes("testing");
+            byte[] decoded = Encoding.UTF8.GetBytes("this is just a test");
 
             Console.WriteLine(decoded.Length);
 

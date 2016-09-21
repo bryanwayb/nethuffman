@@ -140,13 +140,14 @@ namespace NetHuffman
             byte shiftedBits = 1;
             bool shouldInvert = false;
             int possibleUniques = 0x1 << currentbitlen;
+            int index = 0;
             unchecked
             {
                 foreach (KeyValuePair<byte, uint> kv in sortingList)
                 {
                     for (;;)
                     {
-                        if(usedValues.Count == possibleUniques)
+                        if(index == possibleUniques)
                         {
                             currentbitlen++;
                             shiftIndex = -1;
@@ -170,6 +171,8 @@ namespace NetHuffman
                             value = (0x0 | ~((uint)0x0) >> (32 - shiftedBits) << shiftIndex) & mask;
                             shouldInvert = true;
                         }
+
+                        index++;
 
                         if (!usedValues.Contains(value))
                         {

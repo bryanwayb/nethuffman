@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace NetHuffman
 {
@@ -82,11 +83,21 @@ namespace NetHuffman
             }
         }
 
+        public uint Encode(string input, out byte[] output)
+        {
+            return Encode(Encoding.UTF8.GetBytes(input), out output);
+        }
+
         public byte[] Encode(byte[] buffer)
         {
             byte[] ret;
             Encode(buffer, out ret);
             return ret;
+        }
+
+        public byte[] Encode(string buffer)
+        {
+            return Encode(Encoding.UTF8.GetBytes(buffer));
         }
 
         public uint Decode(byte[] input, out byte[] output, uint bitlength = 0)
@@ -230,10 +241,18 @@ namespace NetHuffman
             }
         }
 
-        public byte[] Decode(byte[] buffer)
+        public byte[] Decode(byte[] buffer, uint bitlength = 0)
         {
             byte[] ret;
-            Decode(buffer, out ret);
+            Decode(buffer, out ret, bitlength);
+            return ret;
+        }
+
+        public uint Decode(byte[] input, out string output, uint bitlength = 0)
+        {
+            byte[] outputBuffer = null;
+            uint ret = Decode(input, out outputBuffer, bitlength);
+            output = Encoding.UTF8.GetString(outputBuffer);
             return ret;
         }
     }

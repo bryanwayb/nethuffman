@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace NetHuffman
 {
@@ -28,8 +27,19 @@ namespace NetHuffman
                 throw new InvalidOperationException("No lookup table has been created. Either provide one or generate it");
             }
 
-            MinBitLen = lookup.Keys.Min();
-            MaxBitLen = lookup.Keys.Max();
+            MinBitLen = 32;
+            MaxBitLen = 0;
+            foreach (byte v in lookup.Keys)
+            {
+                if (v < MinBitLen)
+                {
+                    MinBitLen = v;
+                }
+                if (v > MaxBitLen)
+                {
+                    MaxBitLen = v;
+                }
+            }
 
             ForwardLookup = new ForwardLookupEntry[256];
             ReverseLookup = new Dictionary<byte, Dictionary<uint, ReverseLookupEntry>>();
@@ -55,7 +65,7 @@ namespace NetHuffman
             }
 
             Coder test = new Coder(this);
-            HashSet<byte> clist = new HashSet<byte>();
+            List<byte> clist = new List<byte>();
             for (byte i = 0; i < 255; i++)
             {
                 byte[] arr = test.Decode(test.Encode(new byte[1] { i }));

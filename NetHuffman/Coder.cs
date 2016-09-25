@@ -100,13 +100,13 @@ namespace NetHuffman
             return Encode(Encoding.UTF8.GetBytes(buffer));
         }
 
-        public uint Decode(byte[] input, out byte[] output, uint bitlength = 0)
+        public uint Decode(byte[] input, out byte[] output, int inputOffset = 0, uint bitlength = 0)
         {
             List<byte> ret = new List<byte>();
 
             unchecked
             {
-                uint RemainingBufferLength = (uint)input.Length << 3,
+                uint RemainingBufferLength = (uint)(input.Length - inputOffset) << 3,
                     initialBufferLength = RemainingBufferLength;
 
                 if(bitlength > 0 && bitlength < RemainingBufferLength)
@@ -114,7 +114,7 @@ namespace NetHuffman
                     RemainingBufferLength = bitlength;
                 }
 
-                int bufferIndex = 0;
+                int bufferIndex = inputOffset;
                 byte carryOverByte = 0;
                 int carryOverBitlen = 0;
 
@@ -239,21 +239,6 @@ namespace NetHuffman
                 output = ret.ToArray();
                 return initialBufferLength - RemainingBufferLength;
             }
-        }
-
-        public byte[] Decode(byte[] buffer, uint bitlength = 0)
-        {
-            byte[] ret;
-            Decode(buffer, out ret, bitlength);
-            return ret;
-        }
-
-        public uint Decode(byte[] input, out string output, uint bitlength = 0)
-        {
-            byte[] outputBuffer = null;
-            uint ret = Decode(input, out outputBuffer, bitlength);
-            output = Encoding.UTF8.GetString(outputBuffer);
-            return ret;
         }
     }
 }

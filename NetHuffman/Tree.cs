@@ -73,7 +73,8 @@ namespace NetHuffman
             HashSet<byte> clist = new HashSet<byte>();
             for (byte i = 0; i < 255; i++)
             {
-                byte[] arr = test.Decode(test.Encode(new byte[1] { i }));
+                byte[] arr;
+                test.Decode(test.Encode(new byte[1] { i }), out arr);
                 if (arr.Length > 0)
                 {
                     byte t = arr[0];
